@@ -18,11 +18,7 @@ module RailsSameSiteCookie
   end
 
   def self.use_same_site_cookie?(env)
-    regex = configuration.user_agent_regex
-    agent = env['HTTP_USER_AGENT']
-
-    return false unless regex.nil? || regex.match(agent)
-
-    UserAgentChecker.new(agent, ssl: Rack::Request.new(env).ssl?).send_same_site_none?
+    configuration.send_same_site_none?(env) &&
+      UserAgentChecker.new(env['HTTP_USER_AGENT'], ssl: Rack::Request.new(env).ssl?).send_same_site_none?
   end
 end
