@@ -4,21 +4,25 @@ module RailsSameSiteCookie
   class UserAgentChecker
     PARSER = UserAgentParser::Parser.new
 
-    attr_reader :user_agent
+    attr_reader :user_agent, :ssl
 
     def user_agent=(user_agent)
       @user_agent_str = user_agent
       @user_agent = user_agent ? PARSER.parse(user_agent) : nil
     end
 
-    def initialize(user_agent=nil)
+    def initialize(user_agent=nil, ssl: false)
       @user_agent_str = user_agent
+      @ssl = ssl
       @user_agent = PARSER.parse(user_agent) if user_agent
     end
 
     def send_same_site_none?
+      return false if chrome? && !ssl # https://www.chromestatus.com/feature/5633521622188032
+
       return true if user_agent.nil? or @user_agent_str == ''
-      return !missing_same_site_none_support?
+
+      !missing_same_site_none_support?
     end
 
     def chrome?

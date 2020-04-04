@@ -19,7 +19,7 @@ RSpec.describe RailsSameSiteCookie::UserAgentChecker do
   end
 
   it "returns true for MacOSX 10.14 non-safari user agent" do
-    uac = described_class.new("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36")
+    uac = described_class.new("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36", ssl: true)
     expect(uac.send_same_site_none?).to be true
   end
 
@@ -34,7 +34,7 @@ RSpec.describe RailsSameSiteCookie::UserAgentChecker do
   end
 
   it "returns true for Chrome not between 51 and 67" do
-    uac = described_class.new("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3334.0 Safari/537.36")
+    uac = described_class.new("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3334.0 Safari/537.36", ssl: true)
     expect(uac.send_same_site_none?).to be true
 
     uac.user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.3334.0 Safari/537.36"
@@ -53,7 +53,7 @@ RSpec.describe RailsSameSiteCookie::UserAgentChecker do
   end
 
   it "returns true for UC browsers greater than or equal to 12.13.2" do
-    uac = described_class.new("Mozilla/5.0 (Linux; U; Android 6.0.1; zh-CN; F5121 Build/34.0.A.1.247) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/40.0.2214.89 UCBrowser/12.13.2.1 Mobile Safari/537.36")
+    uac = described_class.new("Mozilla/5.0 (Linux; U; Android 6.0.1; zh-CN; F5121 Build/34.0.A.1.247) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/40.0.2214.89 UCBrowser/12.13.2.1 Mobile Safari/537.36", ssl: true)
     expect(uac.send_same_site_none?).to be true
   end
 
